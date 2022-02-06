@@ -14,13 +14,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/im-learn?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://118.178.241.20/im-learn?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+
     username: root
-    password: hzy20010618
+    password: 123
 
   redis:
-    host: 118.178.241.20
+    host: ip
     port: 6379
-    password: hzy20010618
+    password: 123
     database: 4
 
