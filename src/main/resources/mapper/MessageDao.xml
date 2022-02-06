@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzy.im.dao.MessageDao">
+    <insert id="insert">
+        insert into all_message(`from`,`to`,message,`system`,create_time)  values(#{fromName},#{toName},#{message},#{isSystem},now())
+    </insert>
+</mapper>
