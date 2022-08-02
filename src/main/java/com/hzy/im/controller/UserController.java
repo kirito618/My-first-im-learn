@@ -11,7 +11,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 public class UserController {
@@ -27,7 +26,7 @@ public class UserController {
         if(!ObjectUtils.isEmpty(userDao.login(user))){
             String token = System.currentTimeMillis()+"&@_"+Math.random()*100;
             LoginResult result = new LoginResult(user.getUsername(), token);
-            redisTemplate.opsForValue().set(token, JSONObject.toJSONString(result) ,3600 * 24, TimeUnit.SECONDS);
+            //redisTemplate.opsForValue().set(token, session ,3600 * 24 * 5, TimeUnit.SECONDS);
             session.setAttribute("username",user.getUsername());
             return R.success(result);
         }else{
@@ -39,10 +38,6 @@ public class UserController {
     public String getUserName(@RequestHeader("token")String token,HttpSession session){
         return (String) session.getAttribute("username");
     }
-
-
-
-
 
 
     /**
@@ -69,5 +64,4 @@ public class UserController {
         JSONObject jsonObject = JSONObject.parseObject((String)object);
         return jsonObject.getString(key);
     }
-
 }

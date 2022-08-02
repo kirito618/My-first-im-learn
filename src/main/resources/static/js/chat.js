@@ -23,6 +23,7 @@ $(function () {
     });
     //创建websocket对象
     var ws = new WebSocket("ws://localhost:6542/chat");
+    //var ws = new WebSocket("ws://118.178.241.20:6542/chat");
 
 
 
