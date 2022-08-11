@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzy.im.dao.MessageDao">
     <insert id="insert">
-        insert into all_message(`from`,`to`,message,`system`,create_time)  values(#{fromName},#{toName},#{message},#{isSystem},now())
+        insert into all_message(`from`,`to`,message,`system`,create_time
+        <if test="isGroup==1">
+            ,group_id
+        </if>
+        )  values(#{fromName},#{toName},#{message},#{isSystem},now()
+        <if test="isGroup==1">
+            ,#{groupId}
+        </if>
+        )
     </insert>
+
+    <select id="getAllGroups" resultType="java.lang.String">
+        select DISTINCT `name` from group_member,`group` where `group`.id = group_member.group_id and `group_member`.username = #{username}
+    </select>
+
+
+    <select id="getMessagesByGroupName" resultType="com.hzy.im.result.ResultMessage">
+        select `from` as fromName,message from all_message where group_id = #{groupId} order by id
+    </select>
+
+    <select id="getMessagesByFromOrTo" resultType="com.hzy.im.result.ResultMessage">
+        select `from` as fromName,message from all_message where (`from` = #{fromName} and `to` = #{toName}) or (`to` = #{toName} and `from` = #{fromName})
+        order by id
+    </select>
 </mapper>

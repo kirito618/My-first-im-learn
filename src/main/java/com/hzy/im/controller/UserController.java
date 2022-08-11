@@ -5,12 +5,16 @@ import com.hzy.im.dao.UserDao;
 import com.hzy.im.pojo.User;
 import com.hzy.im.response.R;
 import com.hzy.im.result.LoginResult;
+import com.hzy.im.result.ResultMessage;
+import com.hzy.im.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 public class UserController {
@@ -19,6 +23,9 @@ public class UserController {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    MessageService messageService;
 
 
     @PostMapping("/login")
@@ -37,6 +44,28 @@ public class UserController {
     @PostMapping("/getUserName")
     public String getUserName(@RequestHeader("token")String token,HttpSession session){
         return (String) session.getAttribute("username");
+    }
+
+
+    @GetMapping("/getGroups")
+    public Set<String> getJoinedGroups(HttpSession httpSession){
+        String username = (String) httpSession.getAttribute("username");
+        System.out.println(username + " 访问了/getGroups");
+        return messageService.getJoinedGroups(username);
+    }
+
+    @GetMapping("/getRecords")
+    public List<ResultMessage> getRecords(HttpSession httpSession, @RequestParam("groupName") String groupName){
+        String username = (String) httpSession.getAttribute("username");
+        System.out.println(username + " 访问了/getGroups");
+        return messageService.getMessagesRecordByGroupName(groupName);
+    }
+
+
+    @GetMapping("/getOneRecords")
+    public List<ResultMessage> getOneRecords(HttpSession httpSession, @RequestParam("to") String to){
+        String username = (String) httpSession.getAttribute("username");
+        return messageService.getMessagesRecordByToName( username, to);
     }
 
 

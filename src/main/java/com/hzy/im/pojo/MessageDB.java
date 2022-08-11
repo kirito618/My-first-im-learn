@@ -13,6 +13,8 @@ public class MessageDB {
 
     private boolean isSystem;
 
+    private boolean isGroup;
+
     private String message;
 
     private String createTime;

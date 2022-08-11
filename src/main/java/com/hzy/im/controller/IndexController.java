@@ -5,9 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * .
- * Package Name:   com.yyj.controller
- *
  * @author: hzy
  * Date Time:      2021/5/24 17:27
  */

@@ -7,6 +7,8 @@ public class ResultMessage {
 
     //是否为系统消息
     private boolean isSystem;
+    //是否为群组消息
+    private boolean isGroupFlag;
 
     private String fromName;
 

@@ -32,9 +32,10 @@ public class MessageUtils {
     }
 
     //封装消息格式，是否为系统消息，消息来源，消息主体
-    public static String getMessage(boolean isSystemMessage,String fromName,Object message){
+    public static String getMessage(boolean isSystemMessage,boolean isGroup,String fromName,Object message){
         ResultMessage result = new ResultMessage();
         result.setSystem(isSystemMessage);
+        result.setGroupFlag(isGroup);
         result.setMessage(message);
         if(!ObjectUtils.isEmpty(fromName)){
             //不是null才封装进去
