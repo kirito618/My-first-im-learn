@@ -25,8 +25,8 @@ $(function () {
 
 
     //创建websocket对象
-    var ws = new WebSocket("ws://localhost:6542/chat");
-    //var ws = new WebSocket("ws://118.178.241.20:6542/chat");
+    //var ws = new WebSocket("ws://localhost:6542/chat");
+    var ws = new WebSocket("ws://118.178.241.20:6542/chat");
 
 
     //建立连接后触发
@@ -44,39 +44,37 @@ $(function () {
         console.log(jsonData);
         //判断是否是系统消息
         if (jsonData.system) {
-            //是系统消息，处理
-            var friendsList = "";
-            var systemMsg = "";
-            var allNames = jsonData.message;
-            for (var name of allNames) {
-                if (username !== name) {
-                    friendsList += "<li><a style='text-decoration: underline' onclick='chatWith(\""+ name +"\")'>"+name+"</a></li>";
-                    systemMsg += "<li>"+name+" 上线啦！</li>";
+            if(jsonData.groupFlag){
+                let groups = jsonData.message;
+                let groupsList = "";
+                for (let group of groups) {
+                    groupsList += "<li><a style='text-decoration: underline' onclick='chatRoom(\""+ group +"\")'>"+group+"</a></li>";
                 }
+                $("#groupsList").html(groupsList);
+            }else{
+                //是系统消息，处理
+                var friendsList = "";
+                var systemMsg = "";
+                var allNames = jsonData.message;
+                for (var name of allNames) {
+                    if (username !== name) {
+                        friendsList += "<li><a style='text-decoration: underline' onclick='chatWith(\""+ name +"\")'>"+name+"</a></li>";
+                        systemMsg += "<li>"+name+" 上线啦！</li>";
+                    }
+                }
+                //渲染页面
+                $("#friendsList").html(friendsList);
+                $("#systemMsg").html(systemMsg);
             }
-            //渲染页面
-            $("#friendsList").html(friendsList);
-            $("#systemMsg").html(systemMsg);
-        }else if(jsonData.groupFlag){
-            let groups = jsonData.message;
-            let groupsList = "";
-            for (let group of groups) {
-                groupsList += "<li><a style='text-decoration: underline' onclick='chatRoom(\""+ group +"\")'>"+group+"</a></li>";
-            }
-            $("#groupsList").html(groupsList);
         }else{
             //不是系统消息，是发送给指定用户的消息,示例值：{“systemMsgFlag”: false, "fromName": "YYJ", "message": “你在哪里呀？”}
             var data = jsonData.message;
             //渲染消息（位于左侧）
             var cnt = "<div class=\"atalk\"><span id=\"asay\">"+data+"</span></div>"
-            if (toName === jsonData.fromName) {
-                $("#chatCnt").append(cnt);
+            if (jsonData.groupFlag){
+                cnt = "<div class=\"atalk\">" + jsonData.fromName + ": "  + "<span id=\"asay\">"+data+"</span></div>"
             }
-            var chatData = sessionStorage.getItem(jsonData.fromName);
-            if (chatData != null) {
-                cnt = chatData + cnt;
-            }
-            sessionStorage.setItem(jsonData.fromName ,cnt);
+            $("#chatCnt").append(cnt);
         }
     };
     //关闭连接触发
@@ -91,9 +89,11 @@ $(function () {
         //点击发送后，清空输入内容框架
         $("#tex_content").val("");
         if (isGroup){
-            var sendJson = {"toName": toName, "message": data, "group": false};
-        }else{
             var sendJson = {"toName": toName, "message": data, "group": true};
+            alert("群组消息！！");
+        }else{
+            var sendJson = {"toName": toName, "message": data, "group": false};
+            alert("单聊消息！");
         }
 
         //聊天框显示发送内容（右侧，即我发送的消息）
@@ -112,6 +112,7 @@ $(function () {
 
 //点击好友列表后，执行的动作
 function chatWith(name){
+    isGroup = false;
     toName = name;
     //再次点击好友聊天，需要删除原来的”和xxx"聊天的提示
     $('#p1').remove();
@@ -162,6 +163,7 @@ function chatWith(name){
 
 //点击某个群组后，执行的动作
 function chatRoom(name){
+    isGroup = true;
     toName = name;
     //再次点击好友聊天，需要删除原来的”和xxx"聊天的提示
     $('#p1').remove();

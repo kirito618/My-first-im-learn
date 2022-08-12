@@ -32,4 +32,10 @@ public interface MessageService {
      * 获取与某人的历史聊天记录
      * */
     public List<ResultMessage> getMessagesRecordByToName(String fromName,String toName);
+
+
+    /**
+     * 获取某群组的所有成员名字列表
+     * */
+    public List<String> getAllMembers(String groupName);
 }

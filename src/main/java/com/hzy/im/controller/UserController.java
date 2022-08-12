@@ -65,6 +65,7 @@ public class UserController {
     @GetMapping("/getOneRecords")
     public List<ResultMessage> getOneRecords(HttpSession httpSession, @RequestParam("to") String to){
         String username = (String) httpSession.getAttribute("username");
+        System.out.println(username + "------->  "+ to);
         return messageService.getMessagesRecordByToName( username, to);
     }
 

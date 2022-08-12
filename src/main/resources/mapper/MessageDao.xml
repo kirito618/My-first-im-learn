@@ -23,7 +23,7 @@
     </select>
 
     <select id="getMessagesByFromOrTo" resultType="com.hzy.im.result.ResultMessage">
-        select `from` as fromName,message from all_message where (`from` = #{fromName} and `to` = #{toName}) or (`to` = #{toName} and `from` = #{fromName})
+        select `from` as fromName,message from all_message where (`from` = #{fromName} and `to` = #{toName}) or (`to` = #{fromName} and `from` = #{toName})
         order by id
     </select>
 </mapper>

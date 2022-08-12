@@ -6,15 +6,13 @@
 
 ### 效果展示：
 
-![image-20220802195156032](F:\java\聊天室项目1\image-20220802195156032.png)
-
-![image-20220206200306584](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20220206200306584.png)
+https://img-blog.csdnimg.cn/de2c5e4cd279444c88e24c5a76a294eb.png
 
 这里是登录后的页面，每有一个用户上线，列表中就会出现该用户的用户名，点击用户名，可进入二者的聊天页面。
 
-**发消息：**
+**发消息：（单聊与群聊均有）**
 
-![image-20220206201043369](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20220206201043369.png)
+https://img-blog.csdnimg.cn/49cbefd551744a58a92f4eceb9a9f7c8.png
 
 前端非常简陋，基本上是一边抄着别人的页面代码一边小小修改的，毕竟没有花时间去研究过前端，暂时先这样嘿嘿
 

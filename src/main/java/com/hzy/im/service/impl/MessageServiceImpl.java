@@ -1,6 +1,7 @@
 package com.hzy.im.service.impl;
 
 import com.hzy.im.dao.MessageDao;
+import com.hzy.im.dao.UserDao;
 import com.hzy.im.pojo.MessageDB;
 import com.hzy.im.result.ResultMessage;
 import com.hzy.im.service.MessageService;
@@ -14,6 +15,9 @@ import java.util.Set;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     MessageDao messageDao;
+
+    @Autowired
+    UserDao userDao;
 
     @Override
     public void addMsg(String from,String to,boolean isSystem,boolean isGroup,String message){
@@ -59,5 +63,15 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<ResultMessage> getMessagesRecordByToName(String fromName,String toName){
         return messageDao.getMessagesByFromOrTo(fromName,toName);
+    }
+
+
+    /**
+     * 获取某群组的所有成员名字列表
+     * */
+    @Override
+    public List<String> getAllMembers(String groupName){
+        Integer groupId = messageDao.getGroupId(groupName);
+        return userDao.memberList(groupId);
     }
 }
